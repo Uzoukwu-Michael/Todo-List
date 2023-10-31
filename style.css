@@ -1,11 +1,30 @@
+:root{
+  --secondary-color: #176b87;
+  --primary-color: #04364a;
+  --accent-color: #dafffb;
+}
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: 'poppins';
 }
+
 body{
-  background-color: aqua;
+  background-color: var(--accent-color);
+  display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.container{
+  display: flex;
+flex-direction: column;
+  background-color: var(--primary-color);
+  margin: 20px;
+  padding: 20px;
+  height: 700px;
+  width: 600px;
+  border-radius: 12px;
 }
 ul{
   list-style: none;
@@ -17,32 +36,180 @@ h1{
   margin: 5px;
 }
 input{
+  display: flex;
   padding: 5px;
   margin: 5px;
   border-radius: 5px;
   border: 2px solid yellowgreen;
 }
+.registerAppearBtn{
+  background: transparent;
+  border-radius: 12px;
+  padding: 7px;
+  height: 28px;
+  width: 73px;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid var(--accent-color);
+  font-size: 15px;
+  background-color:var(--primary-color);
+}
+.loginAppearBtn{
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  height: 28px;
+  width: 73px;
+  color: var(--accent-color);
+background-color:var(--secondary-color);
+}
+.btns{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+h3{
+  color: var(--accent-color);
+}
+.btns button{
+  padding: 7px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--accent-color);
+  width: 100px;
+  margin: 0 5px;
+  border-radius: 12px;
+}
+.first{
+  display: flex;
+  justify-content:space-between;
+}
+.image{
+  display: flex;
+  justify-content: space-between;
+}
+#registerForm{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  margin-bottom: 200px;
+  padding: 15px;
+  display: none;
+}
+#registerBtn{
+padding: 2px;
+color: var(--accent-color);
+font-size: 19px;
+background-color: var(--primary-color);
+margin: 2px;
+width: 100px;
+font-weight: 60px;
+border-radius: 5px;
+border: 1px solid var(--accent-color);
+}
+#welcome{
+  text-transform: capitalize;
+}
+.add{
+  display: flex;
+  flex-direction: column;
+  /* display: none; */
+}
+#todoInput{
+  display: flex;
+  width: 500px;
+  align-items: center;
+  justify-content: center;
+}
+#loginForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ justify-content: center;
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  padding: 15px;
+  display: none;
+}
+#loginBtn{
+  padding: 2px;
+color: var(--accent-color);
+font-size: 19px;
+background-color: var(--primary-color);
+margin: 2px;
+width: 100px;
+font-weight: 60px;
+border-radius: 5px;
+border: 1px solid var(--accent-color);
+
+}
+.cancelBtn1{
+  text-decoration: underline;
+  border: none;
+  background: transparent;
+  padding: 5px;
+  margin: 12px;
+  margin-right: 200px;
+  color: var(--accent-color);
+}
+.cancelBtn{
+  text-decoration: underline;
+  border: none;
+  background: transparent;
+  padding: 5px;
+  margin: 12px;
+  margin-right: 200px;
+  color: var(--accent-color);
+}
+
+button:hover{
+  cursor: pointer;
+}
+.todo{
+  display: flex;
+  flex-direction: column;
+}
+span{
+  display: flex;
+  justify-content: space-around;
+}
 li{
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
   margin-bottom: 2px;
   margin: 10px;
   padding: 5px;
   font-size: 1.2rem;
-  border: 2px solid green;
+  border: 2px solid var(--accent-color);
   width: 400px;
   border-radius: 10px;
+  color: white;
+  width: 100%;
 }
-#addButton{
-border-radius: 5px;
-background-color: green;
-color: white;
-padding: 4px;
-margin: 5px;
-}
-button{
+li button{
+  margin: 3px;
   border-radius: 5px;
-background-color: green;
-color: white;
-padding: 4px;
-margin: 10px;
+  padding: 5px;
+}
+li button:first-child{
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+li button:last-child{
+  background-color: red;
+  color: white;
+}
+li button:first-of-type{
 
+  margin-left:30px;
+}
+hr{
+  margin: 9px;
+}
+header h1{
+  color: var(--accent-color);
 }

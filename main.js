@@ -1,19 +1,64 @@
 const input = document.querySelector('#todoInput')
 const addButton = document.querySelector('#addButton')
 const todoList = document.querySelector('#todoList')
-
-
-// to add to-do
-
+const registerBtn = document.getElementById('registerBtn')
+const loginBtn = document.getElementById('loginBtn')
+const emailInput = document.getElementById('email')
+const passwordInput = document.getElementById('password')
+const nameInput = document.getElementById('name')
+const loginEmail = document.getElementById('loginEmail')
+const loginPassword = document.getElementById('loginPassword')
+const login = document.querySelector('#loginBtn')
+const register = document.querySelector('#registerBtn')
+const registerForm = document.getElementById('registerForm')
+const loginForm = document.getElementById('loginForm')
+const btns = document.querySelector('.btns')
+const resetBtn = document.getElementById('resetBtn')
+const searchBtn = document.getElementById('searchBtn')
+const cancelBtn = document.querySelector('.cancelBtn')
+const cancelBtn1 = document.querySelector('.cancelBtn1')
+const addDiv  = document.querySelector('.add')
+const loginAppearBtn = document.querySelector('.loginAppearBtn')
+const registerAppearBtn  = document.querySelector('.registerAppearBtn')
+const welcomeMsg = document.getElementById('welcome')
+let userDb = []
 let todos =  [] 
-if(localStorage.getItem('todos') == null){
-  localStorage.setItem('todos',JSON.stringify(todos))
+let loggedInUserId = 0
+
+if(localStorage.getItem('loggedInUserId')){
+ 
+  loggedInUserId = JSON.parse(localStorage.getItem('loggedInUserId'))
+}
+
+if(localStorage.getItem('user') == null){
+  localStorage.setItem('user',JSON.stringify(userDb))
 }
 else{
-  todos = JSON.parse(localStorage.getItem('todos'))
+ userDb = JSON.parse(localStorage.getItem('user'))
 }
 
-showTodo()
+// render register button
+if(localStorage.getItem('loggedInUserId') == 0){
+  registerAppearBtn.style.display = 'block'
+  loginAppearBtn.textContent= 'Login'
+  input.style.display = 'none'
+  btns.style.display = 'none'
+  welcomeMsg.style.display = 'none'
+
+}
+else{
+  registerAppearBtn.style.display = 'none'
+  loginAppearBtn.textContent= 'Logout'
+  input.style.display = 'block'
+  btns.style.display = 'block'
+  welcomeMsg.style.display = 'block'
+  welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
+
+  showTodo()
+
+}
+
+
 let counter = 0
 function addTodo() {
   const todoText = todoInput.value 
@@ -24,28 +69,30 @@ function addTodo() {
       text: todoText,
       isCompleted: false
     }
-    todos.push(todo)
-    localStorage.setItem('todos',JSON.stringify(todos))
+    
+    userDb[loggedInUserId-1].todos.push(todo)
+    console.log(userDb[loggedInUserId-1].todos)
+    localStorage.setItem('user',JSON.stringify(userDb))
+
+    console.log(loggedInUserId)
     todoInput.value = ''
     showTodo()
   }
 }
 
-// a function to delete the todos
-
+// a function to delete to-do
 function deleteTodo(index) {
-  todos.splice(index, 1)
-  localStorage.setItem('todos',JSON.stringify(todos))
+  userDb[loggedInUserId-1].todos.splice(index, 1)
+  localStorage.setItem('user',JSON.stringify(userDb))
   showTodo()
 }
 
-// a function to edit
-
+// a function to edit to-do
 function editTodo(index){
   const newTodoText = prompt('Enter the new to-do:' , todos[index].text)
   if(newTodoText !== null) {
-    todos[index].text = newTodoText
-    localStorage.setItem('todos',JSON.stringify(todos))
+   userDb[loggedInUserId-1].todos[index].text = newTodoText
+    localStorage.setItem('user',JSON.stringify(userDb))
    showTodo()
   }
 }
@@ -54,30 +101,145 @@ function editTodo(index){
 // a function to show to-do
 
 function showTodo(){
+
  todoList.innerHTML = ''
-todos.forEach(function(todo, index){
+ console.log(userDb)
+ console.log(loggedInUserId)
+
+ console.log(userDb[loggedInUserId-1].todos)
+ console.log(userDb[loggedInUserId-1])
+
+userDb[loggedInUserId-1].todos.forEach(function(todo, index){
+  const span = document.createElement('span')
   const li = document.createElement('li')
 
   li.innerText = todo.id  + ': ' + '  '  +   todo.text
  
   const deleteButton = document.createElement('Button')
 const editButton =document.createElement('Button')
-
   deleteButton.textContent = 'Delete'
  deleteButton.addEventListener('click',function(){
   deleteTodo(index)
  })
- li.appendChild(deleteButton)
 
  editButton.textContent = 'Edit'
  editButton.addEventListener('click',function(){
   editTodo(index)
  })
-
- li.appendChild(editButton)
+ span.appendChild(editButton)
+ span.appendChild(deleteButton)
+ li.appendChild(span)
  todoList.appendChild(li)
 })
 }
 addButton.addEventListener('click', addTodo)
 
-//new comment
+registerBtn.addEventListener('click',function(e){
+  e.preventDefault()
+  const name = nameInput.value
+  const email = emailInput.value
+  const password = passwordInput.value
+  let registered = false
+
+    const user = {
+      id: 0,
+      name: name,
+      email: email,
+      password: password,
+      todos: todos 
+    }
+    userDb.forEach(user => {
+      if(user.email == email){
+   alert("User already registered") 
+   registered = true
+      }
+    })  
+  if(registered == false){
+      userDb.push(user)
+      userDb[userDb.length -1].id = userDb.length
+       console.log(userDb)
+       localStorage.setItem('user',JSON.stringify(userDb))
+       alert("User created")
+  }
+
+})
+
+loginBtn.addEventListener('click',function(e){
+  e.preventDefault()
+  const email = loginEmail.value
+  const password = loginPassword.value
+  let loggedIn = false
+  console.log(userDb)
+  userDb.forEach(user => {
+    if(user.email == email && user.password == password){
+      alert("Login successful")
+      loggedIn = true
+      loggedInUserId = user.id
+    }
+  })
+  if(loggedIn == true){
+      addDiv.style.display = 'block'
+  loginAppearBtn.style.display = 'block'
+  loginAppearBtn.textContent = 'Log Out'
+  registerAppearBtn.style.display = 'none'
+  loginForm.style.display = 'none'
+  input.style.display = 'block'
+  btns.style.display = 'block'
+  showTodo()
+  // create and persist a user login session in locale storage
+  localStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
+  window.location.reload()
+
+  }
+  else{
+    alert("Login failed")
+  }
+
+  
+  })
+
+function showLoginForm(){
+  if(loginAppearBtn.textContent == 'Login'){
+    loginForm.style.display = 'block'
+    registerForm.style.display = 'none'
+    // register.style.display = 'none'
+    // input.style.display = 'block'
+    // btns.style.display = 'block'  
+  }
+  else{
+    loginForm.style.display = 'none'
+    registerAppearBtn.style.display = 'block'
+    input.style.display = 'none'
+    btns.style.display = 'none'
+    loginAppearBtn.textContent = 'Login'
+    loggedInUserId = 0
+    localStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
+todoList.innerHTML = ''
+window.location.reload()
+  
+  }
+}
+
+function showRegisterForm(){
+  registerForm.style.display = 'block'
+  // login.style.display = 'none'
+  // input.style.display = 'none'
+  // btns.style.display = 'none'
+}
+cancelBtn.addEventListener('click',function(){
+  loginForm.style.display = 'none'
+  // input.style.display = 'block'
+  // btns.style.display = 'block'
+
+})
+cancelBtn1.addEventListener('click',function(){
+  registerForm.style.display = 'none'
+  // input.style.display = 'block'
+  // btns.style.display = 'block'
+
+})
+resetBtn.addEventListener('click',function(){
+  todoList.innerHTML = ''
+  li.innerText = ''
+
+})
