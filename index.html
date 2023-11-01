@@ -16,8 +16,10 @@
 
   <div class="image">
     <div>
-  <img src="assets/icons8-user-48.png" alt="">
-  <h3 id="welcome"></h3>
+  <img src="assets/icons8-user-48.png" alt="" id="profilePic">
+  <label for="uploadFile">Upload Image</label>
+<input type="file" accept="image/png, image/jpeg, image/jpg" id="uploadFile"> 
+ <h3 id="welcome"></h3>
     </div>
   <button onclick="showLoginForm()" class="loginAppearBtn">Login</button>
   </div>
@@ -25,14 +27,14 @@
   <form id="registerForm">
     <h1>Register</h1>
     <input id="name" type="text" placeholder="Name" required autocomplete="name">
-    <input id="email" type="text" placeholder="Email" required autocomplete="email">
+    <input id="email" type="email" placeholder="Email" required autocomplete="email">
     <input id="password" type="text" placeholder="Password" required autocomplete="new-password">
       <button id="registerBtn">Register</button> 
       <button class="cancelBtn1">Click to cancel</button>
  </form>
   <form id="loginForm">
     <h1>Login</h1>
-    <input id="loginEmail" type="text" placeholder="Email" required autocomplete="email">
+    <input id="loginEmail" type="email" placeholder="Email" required autocomplete="email">
     <input type="text" id="loginPassword" placeholder="Password" required autocomplete="new-password">
       <button id="loginBtn">Login</button> 
       <button class="cancelBtn">Click to cancel</button>
@@ -43,7 +45,7 @@
   <input id="todoInput" type="text" placeholder="Enter a new to-do">
   <div class="btns">
   <button id="addButton">Add Task</button>
-  <button id="seacrhBtn">Seacrh</button>
+  <button id="seacrhBtn" onclick="searchTodos()">Seacrh</button>
   <button id="resetBtn">Reset</button>
   </div>
 </div>

@@ -22,7 +22,7 @@ flex-direction: column;
   background-color: var(--primary-color);
   margin: 20px;
   padding: 20px;
-  height: 700px;
+  height: 100%;
   width: 600px;
   border-radius: 12px;
 }
@@ -167,6 +167,10 @@ border: 1px solid var(--accent-color);
 
 button:hover{
   cursor: pointer;
+}
+img{
+  width: 100px;
+  height: 100px;
 }
 .todo{
   display: flex;

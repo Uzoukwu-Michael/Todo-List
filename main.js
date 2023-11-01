@@ -21,6 +21,9 @@ const addDiv  = document.querySelector('.add')
 const loginAppearBtn = document.querySelector('.loginAppearBtn')
 const registerAppearBtn  = document.querySelector('.registerAppearBtn')
 const welcomeMsg = document.getElementById('welcome')
+const profilePic = document.getElementById('profilePic')
+const uploadFile = document.getElementById('uploadFile')
+
 let userDb = []
 let todos =  [] 
 let loggedInUserId = 0
@@ -71,8 +74,11 @@ function addTodo() {
     }
     
     userDb[loggedInUserId-1].todos.push(todo)
-    console.log(userDb[loggedInUserId-1].todos)
+    // userDb[userDb.length -1].id = userDb.length
+
+    // console.log(userDb[loggedInUserId-1].todos)
     localStorage.setItem('user',JSON.stringify(userDb))
+
 
     console.log(loggedInUserId)
     todoInput.value = ''
@@ -81,6 +87,7 @@ function addTodo() {
 }
 
 // a function to delete to-do
+
 function deleteTodo(index) {
   userDb[loggedInUserId-1].todos.splice(index, 1)
   localStorage.setItem('user',JSON.stringify(userDb))
@@ -88,6 +95,7 @@ function deleteTodo(index) {
 }
 
 // a function to edit to-do
+
 function editTodo(index){
   const newTodoText = prompt('Enter the new to-do:' , todos[index].text)
   if(newTodoText !== null) {
@@ -103,11 +111,11 @@ function editTodo(index){
 function showTodo(){
 
  todoList.innerHTML = ''
- console.log(userDb)
- console.log(loggedInUserId)
+//  console.log(userDb)
+//  console.log(loggedInUserId)
 
- console.log(userDb[loggedInUserId-1].todos)
- console.log(userDb[loggedInUserId-1])
+//  console.log(userDb[loggedInUserId-1].todos)
+//  console.log(userDb[loggedInUserId-1])
 
 userDb[loggedInUserId-1].todos.forEach(function(todo, index){
   const span = document.createElement('span')
@@ -146,7 +154,8 @@ registerBtn.addEventListener('click',function(e){
       name: name,
       email: email,
       password: password,
-      todos: todos 
+      todos: todos,
+      image: ''
     }
     userDb.forEach(user => {
       if(user.email == email){
@@ -179,29 +188,26 @@ loginBtn.addEventListener('click',function(e){
   })
   if(loggedIn == true){
       addDiv.style.display = 'block'
-  loginAppearBtn.style.display = 'block'
-  loginAppearBtn.textContent = 'Log Out'
-  registerAppearBtn.style.display = 'none'
-  loginForm.style.display = 'none'
-  input.style.display = 'block'
-  btns.style.display = 'block'
-  showTodo()
+    loginAppearBtn.style.display = 'block'
+    loginAppearBtn.textContent = 'Log Out'
+    registerAppearBtn.style.display = 'none'
+    loginForm.style.display = 'none'
+    input.style.display = 'block'
+    btns.style.display = 'block'
+    showTodo()
   // create and persist a user login session in locale storage
   localStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
   window.location.reload()
-
   }
   else{
     alert("Login failed")
   }
-
-  
   })
 
 function showLoginForm(){
   if(loginAppearBtn.textContent == 'Login'){
-    loginForm.style.display = 'block'
-    registerForm.style.display = 'none'
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
     // register.style.display = 'none'
     // input.style.display = 'block'
     // btns.style.display = 'block'  
@@ -239,7 +245,53 @@ cancelBtn1.addEventListener('click',function(){
 
 })
 resetBtn.addEventListener('click',function(){
-  todoList.innerHTML = ''
-  li.innerText = ''
+  window.location.reload()
 
 })
+
+// a function to search to-do
+
+function searchTodos(){ 
+  const searchInput = input.value
+  
+  
+  const filtered =  userDb[loggedInUserId-1].todos.filter(item => item.text.search(searchInput) != -1)
+  todoList.innerHTML = ''
+
+  filtered.forEach(function(todo, index){
+    const span = document.createElement('span')
+    const li = document.createElement('li')
+  console.log(filtered)
+    li.innerText = index+1 + ': ' + '  '  +   todo.text
+   
+    const deleteButton = document.createElement('Button')
+  const editButton =document.createElement('Button')
+    deleteButton.textContent = 'Delete'
+   deleteButton.addEventListener('click',function(){
+    deleteTodo(index)
+   })
+  
+   editButton.textContent = 'Edit'
+   editButton.addEventListener('click',function(){
+    editTodo(index)
+   })
+   span.append(editButton)
+   span.append(deleteButton)
+   li.append(span)
+   todoList.append(li)
+  })
+}      
+  
+uploadFile.addEventListener('change',function(){
+  const file = uploadFile.files[0]
+  const reader = new FileReader()
+  reader.readAsText(file)
+  reader.onload = function(e){
+    const data = JSON.parse(e.target.result)
+    userDb[loggedInUserId-1].image = data
+    profilePic.src = data
+    localStorage.setItem('user',JSON.stringify(userDb))
+    showTodo()
+  }
+})
+
