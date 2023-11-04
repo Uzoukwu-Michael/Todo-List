@@ -96,16 +96,28 @@ function deleteTodo(index) {
 
 // a function to edit to-do
 
-function editTodo(index){
-  const newTodoText = prompt('Enter the new to-do:' , todos[index].text)
-  if(newTodoText !== null) {
-   userDb[loggedInUserId-1].todos[index].text = newTodoText
-    localStorage.setItem('user',JSON.stringify(userDb))
-   showTodo()
-  }
+// function editTodo(index){
+//   const newTodoText = prompt('Enter the new to-do:' , todos[index].text)
+//   if(newTodoText !== null) {
+//    userDb[loggedInUserId-1].todos[index].text = newTodoText
+//     localStorage.setItem('user',JSON.stringify(userDb))
+//    showTodo()
+//   }
+// }
+
+
+function checkTodo(index){
+  // const newTodoText = prompt('Enter the new to-do:' , todos[index].text)
+  //  if(userDb[loggedInUserId-1].todos[index].isCompleted){
+  //   userDb[loggedInUserId-1].todos[index].isCompleted = false
+  //   checkButton.textContent = 'Undone'
+  //  }
+  //  else{
+  //   userDb[loggedInUserId-1].todos[index].isCompleted = true
+  //  }
+  //   localStorage.setItem('user',JSON.stringify(userDb))
+  //  showTodo()
 }
-
-
 // a function to show to-do
 
 function showTodo(){
@@ -123,20 +135,64 @@ userDb[loggedInUserId-1].todos.forEach(function(todo, index){
 
   li.innerText = todo.id  + ': ' + '  '  +   todo.text
  
-  const deleteButton = document.createElement('Button')
-const editButton =document.createElement('Button')
+  const deleteButton = document.createElement('button')
+const editButton =document.createElement('button')
+// const checkButton = document.createElement('button')
   deleteButton.textContent = 'Delete'
  deleteButton.addEventListener('click',function(){
   deleteTodo(index)
  })
 
+//  if(checkButton.textContent = 'Done'){
+
+//  }
+
+//  checkButton.addEventListener('click',function(){
+//   if(userDb[loggedInUserId-1].todos[index].isCompleted === true){
+//     // checkButton.parentElement.parentElement.style.backgroundColor = 'red'
+
+//     userDb[loggedInUserId-1].todos[index].isCompleted = false
+//     // console.log(checkButton.textContent)
+//     console.log(userDb[loggedInUserId-1].todos[index])
+//   //  console.log(checkButton.parentElement.parentElement)
+//     // checkButton.textContent = 'Done'
+//    }
+//    else{
+//     userDb[loggedInUserId-1].todos[index].isCompleted = true
+//     console.log(checkButton.textContent)
+//     console.log(userDb[loggedInUserId-1].todos[index])
+
+//     // checkButton.textContent = 'UnDone'
+//    }
+//     localStorage.setItem('user',JSON.stringify(userDb))
+//    showTodo()
+
+//  })
+
+
  editButton.textContent = 'Edit'
  editButton.addEventListener('click',function(){
-  editTodo(index)
+  console.log(todo)
+  const newTodoText = prompt('Enter the new to-do:' , todo.text)
+  if(newTodoText !== null) {
+   userDb[loggedInUserId-1].todos[index].text = newTodoText
+    localStorage.setItem('user',JSON.stringify(userDb))
+   showTodo()
+  }
+
  })
+
+//  span.appendChild(checkButton)
  span.appendChild(editButton)
  span.appendChild(deleteButton)
  li.appendChild(span)
+//  if(todo.isCompleted){
+//   li.classList.add('liDone')
+//  }
+//  else{
+//   li.classList.add('liUnDone')
+ 
+//  }
  todoList.appendChild(li)
 })
 }
@@ -154,8 +210,7 @@ registerBtn.addEventListener('click',function(e){
       name: name,
       email: email,
       password: password,
-      todos: todos,
-      image: ''
+      todos: todos
     }
     userDb.forEach(user => {
       if(user.email == email){
@@ -280,18 +335,29 @@ function searchTodos(){
    li.append(span)
    todoList.append(li)
   })
-}      
+}   
+
+
+// function loadImage(event){
+//   const image =URL.createObjectURL(event.target.files[0])
+//   console.log(image)
+//   profilePic.src = image 
+//   localStorage.setItem('userImage',(image))
+// }
+// if(localStorage.getItem('userImage' ) !== null){
+//   profilePic.src = localStorage.getItem('userImage')
+// }
+
   
-uploadFile.addEventListener('change',function(){
-  const file = uploadFile.files[0]
-  const reader = new FileReader()
-  reader.readAsText(file)
-  reader.onload = function(e){
-    const data = JSON.parse(e.target.result)
-    userDb[loggedInUserId-1].image = data
-    profilePic.src = data
-    localStorage.setItem('user',JSON.stringify(userDb))
-    showTodo()
-  }
-})
+// uploadFile.addEventListener('change',function(){
+//   const file = uploadFile.files[0]
+//   const reader = new FileReader()
+//   reader.readAsText(file)
+//   reader.onload = function(e){
+//     const data = JSON.parse(e.target.result)
+//     userDb[loggedInUserId-1].image = data
+//     profilePic.src = data
+//     localStorage.setItem('user',JSON.stringify(userDb))
+//   }
+// })
 

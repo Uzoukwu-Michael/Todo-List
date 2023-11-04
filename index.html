@@ -17,8 +17,8 @@
   <div class="image">
     <div>
   <img src="assets/icons8-user-48.png" alt="" id="profilePic">
-  <label for="uploadFile">Upload Image</label>
-<input type="file" accept="image/png, image/jpeg, image/jpg" id="uploadFile"> 
+ <!-- <button> <label for="uploadFile" >Upload Image</label></button> -->
+<!-- <input type="file" accept="image/png, image/jpeg, image/jpg" id="uploadFile" style="display: none;" onchange="loadImage(event)">  -->
  <h3 id="welcome"></h3>
     </div>
   <button onclick="showLoginForm()" class="loginAppearBtn">Login</button>
@@ -28,14 +28,14 @@
     <h1>Register</h1>
     <input id="name" type="text" placeholder="Name" required autocomplete="name">
     <input id="email" type="email" placeholder="Email" required autocomplete="email">
-    <input id="password" type="text" placeholder="Password" required autocomplete="new-password">
+    <input id="password" type="password" placeholder="Password" required autocomplete="new-password">
       <button id="registerBtn">Register</button> 
       <button class="cancelBtn1">Click to cancel</button>
  </form>
   <form id="loginForm">
     <h1>Login</h1>
     <input id="loginEmail" type="email" placeholder="Email" required autocomplete="email">
-    <input type="text" id="loginPassword" placeholder="Password" required autocomplete="new-password">
+    <input type="password" id="loginPassword" placeholder="Password" required autocomplete="new-password">
       <button id="loginBtn">Login</button> 
       <button class="cancelBtn">Click to cancel</button>
  </form>
@@ -56,7 +56,6 @@
   </ul>
   </div>
 </div>
-  
 <script src="main.js"></script>
 </body>
 </html>

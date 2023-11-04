@@ -110,6 +110,12 @@ font-weight: 60px;
 border-radius: 5px;
 border: 1px solid var(--accent-color);
 }
+.liDone{
+  background-color: green;
+}
+.liUnDone{
+  background-color: red;
+}
 #welcome{
   text-transform: capitalize;
 }
