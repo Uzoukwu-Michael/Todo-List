@@ -254,4 +254,8 @@ header h1{
   li button {
     font-size: 0.8rem;
   }
+  #todoInput {
+    width: 80%;
+    font-size: 0.8rem
+  }
 }
