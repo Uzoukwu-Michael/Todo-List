@@ -23,15 +23,12 @@ const registerAppearBtn  = document.querySelector('.registerAppearBtn')
 const welcomeMsg = document.getElementById('welcome')
 const profilePic = document.getElementById('profilePic')
 const uploadFile = document.getElementById('uploadFile')
+const notification = document.getElementById("notification");
 
 let userDb = []
 let todos =  [] 
 let loggedInUserId = 0
 
-if(localStorage.getItem('loggedInUserId')){
- 
-  loggedInUserId = JSON.parse(localStorage.getItem('loggedInUserId'))
-}
 
 if(localStorage.getItem('user') == null){
   localStorage.setItem('user',JSON.stringify(userDb))
@@ -40,8 +37,15 @@ else{
  userDb = JSON.parse(localStorage.getItem('user'))
 }
 
+// handle loggedInId db
+if (sessionStorage.getItem("loggedInUserId") == 0) {
+  sessionStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
+} else {
+  loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
+}
+
 // render register button
-if(localStorage.getItem('loggedInUserId') == 0){
+if(sessionStorage.getItem('loggedInUserId') == 0){
   registerAppearBtn.style.display = 'block'
   loginAppearBtn.textContent= 'Login'
   input.style.display = 'none'
@@ -198,12 +202,91 @@ const editButton =document.createElement('button')
 }
 addButton.addEventListener('click', addTodo)
 
-registerBtn.addEventListener('click',function(e){
+
+
+
+// registerBtn.addEventListener("click", function (e) {
+//   e.preventDefault();
+//   console.log("Button clicked");
+//   const name = nameInput.value
+//   const email = emailInput.value
+//   const password = passwordInput.value
+//   let registered = false
+
+//   let emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+//   let passRegex =
+//     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+//   let passResult = passRegex.test(password);
+//   let result = emailRegex.test(email);
+//   if (!result) {
+//     showMessage("Email is not valid", "red");
+//     return false;
+//   } else if (!passResult) {
+//     showMessage("weak password", "red");
+//     return false;
+//   } else {
+
+//     const user = {
+//       id: 0,
+//       name: name,
+//       email: email,
+//       password: password,
+//       todos: todos
+//     }
+//     };
+
+//     // check if user already exist in userDb
+//     userDb.forEach(user => {
+//       if(user.email == email){
+//    showMessage("User already registered",'red') 
+//    registered = true
+//       }
+
+//   if(registered == false){
+//       userDb.push(user)
+//       userDb[userDb.length -1].id = userDb.length
+//        console.log(userDb)
+//        localStorage.setItem('user',JSON.stringify(userDb))
+//        alert("User created")
+//   }
+//      showMessage("User created",'red');
+//       localStorage.setItem("user", JSON.stringify(userDb));
+
+//     });
+
+  // notification message
+function showMessage(mes, kolor) {
+  notification.textContent = mes;
+  notification.style.backgroundColor = kolor;
+  notification.style.display = "block";
+
+  setTimeout(function () {
+    notification.style.display = "none";
+  }, 3000);
+}
+
+
+
+registerBtn.addEventListener('click',function(e) {
   e.preventDefault()
   const name = nameInput.value
   const email = emailInput.value
   const password = passwordInput.value
   let registered = false
+
+let emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+let passRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+let passResult = passRegex.test(password);
+let result = emailRegex.test(email);
+if (!result) {
+  showMessage("Email is not valid", "red");
+  return false;
+} else if (!passResult) {
+  showMessage("weak password", "red");
+  return false;
+} else {
+
 
     const user = {
       id: 0,
@@ -214,7 +297,7 @@ registerBtn.addEventListener('click',function(e){
     }
     userDb.forEach(user => {
       if(user.email == email){
-   alert("User already registered") 
+   showMessage("User already registered",'red') 
    registered = true
       }
     })  
@@ -226,7 +309,9 @@ registerBtn.addEventListener('click',function(e){
        alert("User created")
   }
 
+}
 })
+
 
 loginBtn.addEventListener('click',function(e){
   e.preventDefault()
@@ -241,6 +326,7 @@ loginBtn.addEventListener('click',function(e){
       loggedInUserId = user.id
     }
   })
+
   if(loggedIn == true){
       addDiv.style.display = 'block'
     loginAppearBtn.style.display = 'block'
@@ -251,12 +337,14 @@ loginBtn.addEventListener('click',function(e){
     btns.style.display = 'block'
     showTodo()
   // create and persist a user login session in locale storage
-  localStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
+  sessionStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
   window.location.reload()
   }
+
   else{
     alert("Login failed")
   }
+
   })
 
 function showLoginForm(){
@@ -267,6 +355,7 @@ function showLoginForm(){
     // input.style.display = 'block'
     // btns.style.display = 'block'  
   }
+
   else{
     loginForm.style.display = 'none'
     registerAppearBtn.style.display = 'block'
@@ -274,7 +363,7 @@ function showLoginForm(){
     btns.style.display = 'none'
     loginAppearBtn.textContent = 'Login'
     loggedInUserId = 0
-    localStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
+    sessionStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
 todoList.innerHTML = ''
 window.location.reload()
   
@@ -287,18 +376,21 @@ function showRegisterForm(){
   // input.style.display = 'none'
   // btns.style.display = 'none'
 }
+
 cancelBtn.addEventListener('click',function(){
   loginForm.style.display = 'none'
   // input.style.display = 'block'
   // btns.style.display = 'block'
 
 })
+
 cancelBtn1.addEventListener('click',function(){
   registerForm.style.display = 'none'
   // input.style.display = 'block'
   // btns.style.display = 'block'
 
 })
+
 resetBtn.addEventListener('click',function(){
   window.location.reload()
 
