@@ -30,21 +30,6 @@ let todos =  []
 let loggedInUserId = 0
 
 
-if(localStorage.getItem('user') == null){
-  localStorage.setItem('user',JSON.stringify(userDb))
-}
-else{
- userDb = JSON.parse(localStorage.getItem('user'))
-}
-
-// handle loggedInId db
-if (localStorage.getItem("loggedInUserId") == 0) {
-  localStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
-} else {
-  loggedInUserId = JSON.parse(localStorage.getItem("loggedInUserId"));
-}
-
-
 // render register button
 console.log
 if(loggedInUserId !== 0){
@@ -69,19 +54,19 @@ else{
 
 
 
-// if(localStorage.getItem('user') == null){
-//   localStorage.setItem('user',JSON.stringify(userDb))
-// }
-// else{
-//  userDb = JSON.parse(localStorage.getItem('user'))
-// }
+if(localStorage.getItem('user') == null){
+  localStorage.setItem('user',JSON.stringify(userDb))
+}
+else{
+ userDb = JSON.parse(localStorage.getItem('user'))
+}
 
-// // handle loggedInId db
-// if (sessionStorage.getItem("loggedInUserId") == 0) {
-//   sessionStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
-// } else {
-//   loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
-// }
+// handle loggedInId db
+if (sessionStorage.getItem("loggedInUserId") == 0) {
+  sessionStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
+} else {
+  loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
+}
 
 // // render register button
 // console.log
