@@ -30,30 +30,6 @@ let todos =  []
 let loggedInUserId = 0
 
 
-// render register button
-console.log
-if(loggedInUserId !== 0){
-  registerAppearBtn.style.display = 'none'
-  loginAppearBtn.textContent= 'Logout'
-  input.style.display = 'block'
-  btns.style.display = 'block'
-  welcomeMsg.style.display = 'block'
-  welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
-
-  showTodo()
-
-}
-else{
-  registerAppearBtn.style.display = 'block'
-  loginAppearBtn.textContent= 'Login'
-  input.style.display = 'none'
-  btns.style.display = 'none'
-  welcomeMsg.style.display = 'none'
-
-}
-
-
-
 if(localStorage.getItem('user') == null){
   localStorage.setItem('user',JSON.stringify(userDb))
 }
@@ -68,27 +44,26 @@ if (sessionStorage.getItem("loggedInUserId") == 0) {
   loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
 }
 
-// // render register button
-// console.log
-// if(loggedInUserId !== 0){
-//   registerAppearBtn.style.display = 'none'
-//   loginAppearBtn.textContent= 'Logout'
-//   input.style.display = 'block'
-//   btns.style.display = 'block'
-//   welcomeMsg.style.display = 'block'
-//   welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
+// render register button
+if(sessionStorage.getItem('loggedInUserId') == 0){
+  registerAppearBtn.style.display = 'block'
+  loginAppearBtn.textContent= 'Login'
+  input.style.display = 'none'
+  btns.style.display = 'none'
+  welcomeMsg.style.display = 'none'
 
-//   showTodo()
+}
+else{
+  registerAppearBtn.style.display = 'none'
+  loginAppearBtn.textContent= 'Logout'
+  input.style.display = 'block'
+  btns.style.display = 'block'
+  welcomeMsg.style.display = 'block'
+  welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
 
-// }
-// else{
-//   registerAppearBtn.style.display = 'block'
-//   loginAppearBtn.textContent= 'Login'
-//   input.style.display = 'none'
-//   btns.style.display = 'none'
-//   welcomeMsg.style.display = 'none'
+  showTodo()
 
-// }
+}
 
 
 let counter = 0
@@ -329,7 +304,6 @@ if (!result) {
   if(registered == false){
       userDb.push(user)
       userDb[userDb.length -1].id = userDb.length
-       console.log(userDb)
        localStorage.setItem('user',JSON.stringify(userDb))
        alert("User created")
   }
@@ -343,17 +317,11 @@ loginBtn.addEventListener('click',function(e){
   const email = loginEmail.value
   const password = loginPassword.value
   let loggedIn = false
-  console.log(userDb)
-  userDb.forEach(user => {
-    if(user.email == email && user.password == password){
-      alert("Login successful")
-      loggedIn = true
-      loggedInUserId = user.id
-    }
-  })
-
-  if(loggedIn == true){
-      addDiv.style.display = 'block'
+ let  loggedInUser = userDb.find(user => user.email == email && user.password == password)
+  if(loggedInUser){
+    alert('login successful')
+    loggedInUserId = loggedInUser.id
+          addDiv.style.display = 'block'
     loginAppearBtn.style.display = 'block'
     loginAppearBtn.textContent = 'Log Out'
     registerAppearBtn.style.display = 'none'
@@ -366,9 +334,35 @@ loginBtn.addEventListener('click',function(e){
   window.location.reload()
   }
 
-  else{
+    else{
     alert("Login failed")
   }
+
+  // userDb.forEach(user => {
+  //   if(user.email == email && user.password == password){
+  //     alert("Login successful")
+  //     loggedIn = true
+  //     loggedInUserId = user.id
+  //   }
+  // })
+
+  // if(loggedIn == true){
+  //     addDiv.style.display = 'block'
+  //   loginAppearBtn.style.display = 'block'
+  //   loginAppearBtn.textContent = 'Log Out'
+  //   registerAppearBtn.style.display = 'none'
+  //   loginForm.style.display = 'none'
+  //   input.style.display = 'block'
+  //   btns.style.display = 'block'
+  //   showTodo()
+  // // create and persist a user login session in locale storage
+  // sessionStorage.setItem('loggedInUserId',JSON.stringify(loggedInUserId))
+  // window.location.reload()
+  // }
+
+  // else{
+  //   alert("Login failed")
+  // }
 
   })
 
