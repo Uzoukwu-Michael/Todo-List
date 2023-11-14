@@ -38,11 +38,12 @@ else{
 }
 
 // handle loggedInId db
-if (sessionStorage.getItem("loggedInUserId") == 0) {
-  sessionStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
+if (localStorage.getItem("loggedInUserId") == 0) {
+  localStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
 } else {
-  loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
+  loggedInUserId = JSON.parse(localStorage.getItem("loggedInUserId"));
 }
+
 
 // render register button
 console.log
@@ -65,6 +66,44 @@ else{
   welcomeMsg.style.display = 'none'
 
 }
+
+
+
+// if(localStorage.getItem('user') == null){
+//   localStorage.setItem('user',JSON.stringify(userDb))
+// }
+// else{
+//  userDb = JSON.parse(localStorage.getItem('user'))
+// }
+
+// // handle loggedInId db
+// if (sessionStorage.getItem("loggedInUserId") == 0) {
+//   sessionStorage.setItem("loggedInUserId", JSON.stringify(loggedInUserId));
+// } else {
+//   loggedInUserId = JSON.parse(sessionStorage.getItem("loggedInUserId"));
+// }
+
+// // render register button
+// console.log
+// if(loggedInUserId !== 0){
+//   registerAppearBtn.style.display = 'none'
+//   loginAppearBtn.textContent= 'Logout'
+//   input.style.display = 'block'
+//   btns.style.display = 'block'
+//   welcomeMsg.style.display = 'block'
+//   welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
+
+//   showTodo()
+
+// }
+// else{
+//   registerAppearBtn.style.display = 'block'
+//   loginAppearBtn.textContent= 'Login'
+//   input.style.display = 'none'
+//   btns.style.display = 'none'
+//   welcomeMsg.style.display = 'none'
+
+// }
 
 
 let counter = 0
