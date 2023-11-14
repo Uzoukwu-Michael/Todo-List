@@ -45,15 +45,7 @@ if (sessionStorage.getItem("loggedInUserId") == 0) {
 }
 
 // render register button
-if(sessionStorage.getItem('loggedInUserId') == 0){
-  registerAppearBtn.style.display = 'block'
-  loginAppearBtn.textContent= 'Login'
-  input.style.display = 'none'
-  btns.style.display = 'none'
-  welcomeMsg.style.display = 'none'
-
-}
-else{
+if(sessionStorage.getItem('loggedInUserId') != 0){
   registerAppearBtn.style.display = 'none'
   loginAppearBtn.textContent= 'Logout'
   input.style.display = 'block'
@@ -62,6 +54,14 @@ else{
   welcomeMsg.textContent = 'Welcome, ' + userDb[loggedInUserId-1].name
 
   showTodo()
+
+}
+else{
+  registerAppearBtn.style.display = 'block'
+  loginAppearBtn.textContent= 'Login'
+  input.style.display = 'none'
+  btns.style.display = 'none'
+  welcomeMsg.style.display = 'none'
 
 }
 
@@ -84,7 +84,6 @@ function addTodo() {
     localStorage.setItem('user',JSON.stringify(userDb))
 
 
-    console.log(loggedInUserId)
     todoInput.value = ''
     showTodo()
   }
@@ -293,7 +292,8 @@ if (!result) {
       name: name,
       email: email,
       password: password,
-      todos: todos
+      todos: todos,
+      image: ''
     }
     userDb.forEach(user => {
       if(user.email == email){
@@ -431,15 +431,16 @@ function searchTodos(){
 
 
 // function loadImage(event){
-//   const image =URL.createObjectURL(event.target.files[0])
+//   const image = URL.createObjectURL(event.target.files[0])
 //   console.log(image)
+//   userDb[loggedInUserId-1].image = image
+
 //   profilePic.src = image 
 //   localStorage.setItem('userImage',(image))
 // }
 // if(localStorage.getItem('userImage' ) !== null){
 //   profilePic.src = localStorage.getItem('userImage')
 // }
-
   
 // uploadFile.addEventListener('change',function(){
 //   const file = uploadFile.files[0]
