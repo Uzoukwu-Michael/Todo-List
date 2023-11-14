@@ -45,7 +45,8 @@ if (sessionStorage.getItem("loggedInUserId") == 0) {
 }
 
 // render register button
-if(sessionStorage.getItem('loggedInUserId') != 0){
+console.log
+if(loggedInUserId !== 0){
   registerAppearBtn.style.display = 'none'
   loginAppearBtn.textContent= 'Logout'
   input.style.display = 'block'
